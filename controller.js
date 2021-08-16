@@ -1,5 +1,15 @@
+const utils = require("./utils")
+
 module.exports = function (req, res) {
-    res.statusCode = 200;
-    res.setHeader("Content-type", "text/plain");
-    res.end("Hello World!");
+    const endpoint = new URL(req.url, "http://localhost:3003").pathname;
+
+    const regEx = /^\/((css|img|js)\/)?\w+\.(html|css|png|jpe?g|gif|tiff|svg|bmp|js)$/;
+    let result = endpoint.match(regEx);
+    
+    if(result) {
+        utils.sendFile(req, res, `./static/${result[0]}`)
+        return; 
+    }
+
+    utils.send(req, res, {message: `Ressource '${endpoint}' not available.`}, 404);
 };
