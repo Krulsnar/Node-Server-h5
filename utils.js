@@ -1,5 +1,4 @@
 const fs = require("fs");
-//import { readFile } from "fs";
 
 exports.send = function(req, res, msg, status = 200) {
     res.statusCode = status;

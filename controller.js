@@ -5,6 +5,7 @@ module.exports = function (req, res) {
 
     const regEx = /^\/((css|img|js)\/)?\w+\.(html|css|png|jpe?g|gif|tiff|svg|bmp|js)$/;
     let result = endpoint.match(regEx);
+    console.log(result);
     
     if(result) {
         utils.sendFile(req, res, `./static/${result[0]}`)
