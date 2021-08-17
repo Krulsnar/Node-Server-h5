@@ -18,18 +18,24 @@ module.exports = function (req, res) {
         return; 
     }
 
-    const apiRX = /^\/api\/\w+$/;
+    const apiRX = /^(\/api\/\w+)\/?([0-9]+)*/;
     result = endpoint.match(apiRX);
-    console.log(result);
+    let id = result[2];
     
     if(result) {
         if (api[result[0]]) {
             if (api[result[0]][req.method]) {
-                api[result[0]][req.method].handler(req, res)
+                api[result[0]][req.method].handler(req, res);
                 return;
             }
             utils.send(req, res, {message: "Method not allowed"}, 405);
             return;
+        }
+        else if (api[result[1]]) {
+            if (api[result[1]][req.method]) {
+                api[result[1]][req.method].handler(req, res, id);
+                return;         
+            }
         }
     }
 
