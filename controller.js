@@ -1,5 +1,9 @@
 const utils = require("./utils");
 const logger = require("./logger");
+const api = {};
+
+api["/api/duck"] = require("./api/duck");
+api["/api/cat"] = require("./api/cat");
 
 module.exports = function (req, res) {
     logger(req, res);
@@ -7,12 +11,26 @@ module.exports = function (req, res) {
 
     const regEx = /^\/((css|img|js)\/)?[\w-]+\.(html|css|png|jpe?g|gif|tiff|svg|bmp|js)$/;
     let result = endpoint.match(regEx);
-    //console.log(result);
     
     if(result) {
         //utils.sendFile(req, res, `./static/${result[0]}`)
         utils.streamFile(req, res, `./static/${result[0]}`);
         return; 
+    }
+
+    const apiRX = /^\/api\/\w+$/;
+    result = endpoint.match(apiRX);
+    console.log(result);
+    
+    if(result) {
+        if (api[result[0]]) {
+            if (api[result[0]][req.method]) {
+                api[result[0]][req.method].handler(req, res)
+                return;
+            }
+            utils.send(req, res, {message: "Method not allowed"}, 405);
+            return;
+        }
     }
 
     utils.send(req, res, {message: `Ressource '${endpoint}' not available.`}, 404);
