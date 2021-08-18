@@ -13,19 +13,19 @@ module.exports = function (req, res) {
     const apiRX = /^(\/api\/(?<route>\w+))\/?(?<id>\d+)*$/
     result = endpoint.match(apiRX);
     const { method } = req;
-    
+
     if(result) {
         const { route, id } = result.groups;
         if (api[route] && id) {
             if (api[route][method] && id) {
                 api[route][method].handler(req, res, id);
-                return;         
+                return;
             }
             utils.send(req, res, {message: "Method not allowed"}, 405);
             return;
         }
-        else if (api[route]) {
-            if (api[route][method]) {
+        else if (api[route]) { 
+            if (api[route][method] && method == ("GET" || "POST")) {
                 api[route][method].handler(req, res);
                 return;
             }
