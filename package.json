@@ -5,6 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "lodash": "^4.17.21",
+    "msnodesqlv8": "^2.2.0",
+    "mssql": "^7.2.0",
     "nodemon": "^2.0.12"
   },
   "devDependencies": {},

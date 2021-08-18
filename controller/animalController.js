@@ -1,9 +1,9 @@
-const utils = require("./utils");
-const logger = require("./logger");
+const utils = require("../utils/utils");
+const logger = require("../utils/logger");
 const api = {};
 
-api["duck"] = require("./api/duck");
-api["cat"] = require("./api/cat");
+api["duck"] = require("../api/duck");
+api["cat"] = require("../api/cat");
 
 module.exports = function (req, res) {
     logger(req, res);
@@ -18,12 +18,12 @@ module.exports = function (req, res) {
         return; 
     }
 
-    const apiRX = /^(\/api\/(?<route>\w+))\/?(?<id>[0-9]+)*/
+    const apiRX = /^(\/api\/(?<route>\w+))\/?(?<id>\d+)*$/
     result = endpoint.match(apiRX);
-    const { route, id } = result.groups;
     const { method } = req;
-
+    
     if(result) {
+        const { route, id } = result.groups;
         if (api[route] && id) {
             if (api[route][method] && id) {
                 api[route][method].handler(req, res, id);

@@ -1,4 +1,4 @@
-const { send } = require("../utils")
+const { send } = require("../utils/utils")
 
 module.exports = {
     GET: {

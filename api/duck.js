@@ -1,4 +1,4 @@
-const { send } = require("../utils")
+const { send } = require("../utils/utils")
 
 const ducks = [
     {id: 1, name: "Gadwall", says: "Quack"}, 
