@@ -11,12 +11,12 @@ var config = {
     } 
 }
 
-exports.connct = async function() {
+exports.connect = async function(query) {
     try {
-        await sql.connect(config)
-        const result = await sql.query`select * from person`
-        console.log(result)
+        await sql.connect(config);
+        const result = await sql.query(query);
+        return result.recordset;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }

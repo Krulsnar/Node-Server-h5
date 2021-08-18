@@ -1,5 +1,5 @@
 const http = require("http");
-const controller = require("./controller/personController")
+const controller = require("./controller/apiController")
 // const controller = {};
 
 // controller["animalController"] = require("./controller/animalController");

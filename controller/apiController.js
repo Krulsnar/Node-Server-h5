@@ -4,19 +4,11 @@ const api = {};
 
 api["duck"] = require("../api/duck");
 api["cat"] = require("../api/cat");
+api["person"] = require("../api/person");
 
 module.exports = function (req, res) {
     logger(req, res);
     const endpoint = new URL(req.url, "http://localhost:3003").pathname;
-
-    const staticRX = /^\/((css|img|js)\/)?[\w-]+\.(html|css|png|jpe?g|gif|tiff|svg|bmp|js)$/;
-    let result = endpoint.match(staticRX);
-    
-    if(result) {
-        //utils.sendFile(req, res, `./static/${result[0]}`)
-        utils.streamFile(req, res, `./static/${result[0]}`);
-        return; 
-    }
 
     const apiRX = /^(\/api\/(?<route>\w+))\/?(?<id>\d+)*$/
     result = endpoint.match(apiRX);
