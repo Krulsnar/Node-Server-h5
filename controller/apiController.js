@@ -18,16 +18,20 @@ module.exports = function (req, res) {
         const { route, id } = result.groups;
         if (api[route] && id) {
             if (api[route][method] && id) {
-                api[route][method].handler(req, res, id);
-                return;
+                if (method !== "POST") {
+                    api[route][method].handler(req, res, id);
+                    return;
+                }
             }
             utils.send(req, res, {message: "Method not allowed"}, 405);
             return;
         }
         else if (api[route]) { 
-            if (api[route][method] && method == ("GET" || "POST")) {
-                api[route][method].handler(req, res);
-                return;
+            if (api[route][method]) {
+                if (method === "GET" || method === "POST") {
+                    api[route][method].handler(req, res);
+                    return;
+                }
             }
             utils.send(req, res, {message: "Method not allowed"}, 405);
             return;

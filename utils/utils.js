@@ -35,3 +35,20 @@ exports.streamFile = function(req, res, filepath) {
     res.setHeader("Content-type", mime);
     stream.pipe(res);
 }
+
+exports.getJSONData = function (req) {
+    let body = "";
+    return new Promise((resolve, reject) => {
+        req.on("data", (chunc) => {
+            body += chunc;
+        })
+        req.on("end", () => {
+            body = JSON.parse(body);
+            resolve(body);
+        })
+        req.on("error", err => {
+            console.log(err);
+            reject(err)
+        })
+    })
+}
